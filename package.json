@@ -1,0 +1,11 @@
+{
+  "name": "struk-app",
+  "version": "1.0.0",
+  "description": "Aplikasi Cetak Struk Y0oman House",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site, no build needed'",
+    "start": "echo 'Static site, no start needed'"
+  }
+}
