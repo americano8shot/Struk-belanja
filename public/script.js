@@ -1,18 +1,10 @@
-/* ============================================ */
-/*                   JS                         */
-/* ============================================ */
-/* Simpan sebagai: script.js */
-
-// ── State ──
 var items = [
     { name: '', price: 0, qty: 0 },
     { name: '', price: 0, qty: 0 }
 ];
 
-// Simpan gambar IG yang diupload (base64)
 var igLogoData = '';
 
-// ── Init ──
 function init() {
     updateClock();
     setInterval(updateClock, 1000);
@@ -39,38 +31,31 @@ function setTxDate() {
     document.getElementById('txDate').value = y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
 }
 
-// ── Upload Logo IG Manual ──
 function handleIGUpload(event) {
     var file = event.target.files[0];
     if (!file) return;
-
     if (file.size > 2 * 1024 * 1024) {
         showToast('Ukuran foto maksimal 2MB', 'fa-exclamation-triangle');
         return;
     }
-
     var reader = new FileReader();
     reader.onload = function(e) {
         igLogoData = e.target.result;
-
         document.getElementById('igFileName').value = file.name;
         document.getElementById('igThumb').src = igLogoData;
         document.getElementById('igThumb').classList.add('show');
         document.getElementById('igUploadBtn').classList.add('has-file');
         document.getElementById('igUploadBtn').innerHTML = '<i class="fas fa-check"></i> Ganti';
-
         updatePreview();
         showToast('Logo Instagram berhasil diupload', 'fa-check-circle');
     };
     reader.readAsDataURL(file);
 }
 
-// ── Format Rupiah ──
 function fmt(n) {
     return n.toLocaleString('id-ID');
 }
 
-// ── Render Item Rows ──
 function renderItems() {
     var c = document.getElementById('itemsContainer');
     c.innerHTML = '';
@@ -105,7 +90,6 @@ function removeItem(i) {
     updatePreview();
 }
 
-// ── Calculate ──
 function calc() {
     var subtotal = 0;
     items.forEach(function(it) {
@@ -118,7 +102,6 @@ function calc() {
     return { subtotal: subtotal, cash: cash, change: change };
 }
 
-// ── Order Type Config ──
 function getOrderLabel(type) {
     if (type === 'gofood') return 'GOFOOD';
     if (type === 'shopeefood') return 'SHOPEE FOOD';
@@ -126,7 +109,6 @@ function getOrderLabel(type) {
     return '';
 }
 
-// ── Update Preview & Summary ──
 function updatePreview() {
     var data = calc();
     var subtotal = data.subtotal;
@@ -147,14 +129,12 @@ function updatePreview() {
     var storeIG = document.getElementById('storeIG').value || '';
     var txDate = document.getElementById('txDate').value || '';
 
-    // Order type
     var orderHTML = '';
     var orderLabel = getOrderLabel(orderType);
     if (orderLabel) {
         orderHTML = '<div class="r-order-type type-' + orderType + '">[ ' + orderLabel + ' ]</div>';
     }
 
-    // Items
     var itemsHTML = '';
     if (items.length === 0) {
         itemsHTML = '<div class="r-empty">Belum ada item</div>';
@@ -172,13 +152,11 @@ function updatePreview() {
         });
     }
 
-    // Logo IG: pakai foto upload atau kosong
     var igImgHTML = '';
     if (igLogoData) {
         igImgHTML = '<img src="' + igLogoData + '" alt="ig">';
     }
 
-    // Build receipt
     var html = '';
     html += '<div class="r-header">';
     html += '<div class="r-brand">' + storeName + '</div>';
@@ -212,7 +190,6 @@ function updatePreview() {
     document.getElementById('receiptPreview').innerHTML = html;
 }
 
-// ── Print ──
 function printReceipt() {
     var data = calc();
     if (data.subtotal <= 0) {
@@ -229,7 +206,6 @@ function printReceipt() {
     setTimeout(function() { window.print(); }, 300);
 }
 
-// ── Reset ──
 function resetAll() {
     items = [{ name: '', price: 0, qty: 1 }];
     document.getElementById('cashPaid').value = '';
@@ -246,7 +222,6 @@ function resetAll() {
     showToast('Form berhasil direset', 'fa-rotate-right');
 }
 
-// ── Toast ──
 function showToast(msg, icon) {
     icon = icon || 'fa-check-circle';
     var t = document.getElementById('toast');
@@ -258,5 +233,4 @@ function showToast(msg, icon) {
     t._timer = setTimeout(function() { t.classList.remove('show'); }, 2500);
 }
 
-// ── Start ──
 init();
