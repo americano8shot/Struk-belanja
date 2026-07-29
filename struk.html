@@ -1,0 +1,164 @@
+<!-- ============================================ -->
+<!--                  HTML                        -->
+<!-- ============================================ -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struk y0oman house - y0oman House</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="topbar-icon"><i class="fas fa-receipt"></i></div>
+        <h1>Cetak Struk</h1>
+        <span id="clockDisplay"></span>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="app-layout">
+
+        <!-- Left: Form -->
+        <div class="form-panel">
+
+            <!-- Toko Info -->
+            <div class="section-title"><i class="fas fa-store"></i> Informasi Toko</div>
+            <div class="form-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nama Toko</label>
+                        <input type="text" id="storeName" value="Y0oman House" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Subtitle</label>
+                        <input type="text" id="storeSub" value="" oninput="updatePreview()">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label>Alamat</label>
+                        <input type="text" id="storeAddr" value="Kemasan Gang V (GANG BUNTU), Kota Mojokerto" oninput="updatePreview()">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tagline</label>
+                        <input type="text" id="storeTag" value="Kalau hari ini kamu lelah, istirahatlah... bukan menyerah." oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="text" id="storeIG" value="@y0oman.house" oninput="updatePreview()">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label>Logo Instagram (Opsional)</label>
+                        <div class="upload-area">
+                            <img class="ig-preview-thumb" id="igThumb" alt="preview">
+                            <input type="text" id="igFileName" value="Belum dipilih" readonly>
+                            <input type="file" id="igFileInput" accept="image/*" style="display:none" onchange="handleIGUpload(event)">
+                            <button type="button" class="btn-upload" id="igUploadBtn" onclick="document.getElementById('igFileInput').click()">
+                                <i class="fas fa-image"></i> Pilih Foto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Type -->
+            <div class="section-title"><i class="fas fa-motorcycle"></i> Tipe Order</div>
+            <div class="form-card">
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label>Order Dari</label>
+                        <select id="orderType" onchange="updatePreview()">
+                            <option value="offline">Langsung di Tempat (Offline)</option>
+                            <option value="gofood">GoFood</option>
+                            <option value="shopeefood">Shopee Food</option>
+                            <option value="grabfood">GrabFood</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items -->
+            <div class="section-title"><i class="fas fa-shopping-bag"></i> Daftar Item</div>
+            <div class="form-card">
+                <div class="item-table-header">
+                    <span>Nama Item</span>
+                    <span>Harga</span>
+                    <span>Jumlah</span>
+                    <span></span>
+                </div>
+                <div id="itemsContainer"></div>
+                <button class="btn-add" onclick="addItem()">
+                    <i class="fas fa-plus"></i> Tambah Item
+                </button>
+            </div>
+
+            <!-- Pembayaran -->
+            <div class="section-title"><i class="fas fa-wallet"></i> Pembayaran</div>
+            <div class="form-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bayar (Tunai)</label>
+                        <input type="number" id="cashPaid" value="0" oninput="updatePreview()" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Tanggal / Waktu</label>
+                        <input type="text" id="txDate" readonly>
+                    </div>
+                </div>
+                <div class="payment-summary">
+                    <div class="pay-row">
+                        <span>Subtotal</span>
+                        <span class="val" id="dispSubtotal">Rp 0</span>
+                    </div>
+                    <div class="pay-row total">
+                        <span>Total</span>
+                        <span class="val" id="dispTotal">Rp 0</span>
+                    </div>
+                    <div class="pay-row" style="margin-top:8px;">
+                        <span>Bayar</span>
+                        <span class="val" id="dispCash">Rp 0</span>
+                    </div>
+                    <div class="pay-row">
+                        <span>Kembalian</span>
+                        <span class="val" id="dispChange">Rp 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-bar">
+                <button class="btn-print" onclick="printReceipt()">
+                    <i class="fas fa-print"></i> Cetak Struk
+                </button>
+                <button class="btn-reset" onclick="resetAll()">
+                    <i class="fas fa-rotate-right"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Right: Preview -->
+        <div class="preview-panel">
+            <div class="preview-label">Preview Struk</div>
+            <div class="receipt" id="receiptPreview"></div>
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
