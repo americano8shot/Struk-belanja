@@ -1,32 +1,26 @@
-<!-- ============================================ -->
-<!--                  HTML                        -->
-<!-- ============================================ -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struk y0oman house - y0oman House</title>
+    <title>Struk y0oman house - Y0oman House</title>
+    <meta name="description" content="Aplikasi cetak struk kasir untuk Y0oman House">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-    <!-- Topbar -->
     <div class="topbar">
         <div class="topbar-icon"><i class="fas fa-receipt"></i></div>
         <h1>Cetak Struk</h1>
         <span id="clockDisplay"></span>
     </div>
 
-    <!-- Main Layout -->
     <div class="app-layout">
 
-        <!-- Left: Form -->
         <div class="form-panel">
 
-            <!-- Toko Info -->
             <div class="section-title"><i class="fas fa-store"></i> Informasi Toko</div>
             <div class="form-card">
                 <div class="form-row">
@@ -48,7 +42,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Tagline</label>
-                        <input type="text" id="storeTag" value="Kalau hari ini kamu lelah, istirahatlah... bukan menyerah." oninput="updatePreview()">
+                        <input type="text" id="storeTag" value="Nikmati Prosesnya, Bukan Cuma Hasilnya" oninput="updatePreview()">
                     </div>
                     <div class="form-group">
                         <label>Instagram</label>
@@ -70,7 +64,6 @@
                 </div>
             </div>
 
-            <!-- Order Type -->
             <div class="section-title"><i class="fas fa-motorcycle"></i> Tipe Order</div>
             <div class="form-card">
                 <div class="form-row full">
@@ -86,7 +79,6 @@
                 </div>
             </div>
 
-            <!-- Items -->
             <div class="section-title"><i class="fas fa-shopping-bag"></i> Daftar Item</div>
             <div class="form-card">
                 <div class="item-table-header">
@@ -101,7 +93,6 @@
                 </button>
             </div>
 
-            <!-- Pembayaran -->
             <div class="section-title"><i class="fas fa-wallet"></i> Pembayaran</div>
             <div class="form-card">
                 <div class="form-row">
@@ -134,7 +125,6 @@
                 </div>
             </div>
 
-            <!-- Actions -->
             <div class="action-bar">
                 <button class="btn-print" onclick="printReceipt()">
                     <i class="fas fa-print"></i> Cetak Struk
@@ -145,7 +135,6 @@
             </div>
         </div>
 
-        <!-- Right: Preview -->
         <div class="preview-panel">
             <div class="preview-label">Preview Struk</div>
             <div class="receipt" id="receiptPreview"></div>
@@ -153,12 +142,11 @@
 
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMsg">Berhasil!</span>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>
