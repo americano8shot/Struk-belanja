@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struk y0oman house - Y0oman House</title>
-    <meta name="description" content="Aplikasi cetak struk kasir untuk Y0oman House">
+    <title>Struk Y0oman House</title>
+    <meta name="description" content="Aplikasi cetak struk kasir Y0oman House">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -25,27 +26,27 @@
             <div class="form-card">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Nama Toko</label>
+                        <label for="storeName">Nama Toko</label>
                         <input type="text" id="storeName" value="Y0oman House" oninput="updatePreview()">
                     </div>
                     <div class="form-group">
-                        <label>Subtitle</label>
-                        <input type="text" id="storeSub" value="" oninput="updatePreview()">
+                        <label for="storeSub">Subtitle</label>
+                        <input type="text" id="storeSub" value="Coffee & Snack" oninput="updatePreview()">
                     </div>
                 </div>
                 <div class="form-row full">
                     <div class="form-group">
-                        <label>Alamat</label>
+                        <label for="storeAddr">Alamat</label>
                         <input type="text" id="storeAddr" value="Kemasan Gang V (GANG BUNTU), Kota Mojokerto" oninput="updatePreview()">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Tagline</label>
+                        <label for="storeTag">Tagline</label>
                         <input type="text" id="storeTag" value="Nikmati Prosesnya, Bukan Cuma Hasilnya" oninput="updatePreview()">
                     </div>
                     <div class="form-group">
-                        <label>Instagram</label>
+                        <label for="storeIG">Instagram</label>
                         <input type="text" id="storeIG" value="@y0oman.house" oninput="updatePreview()">
                     </div>
                 </div>
@@ -53,9 +54,9 @@
                     <div class="form-group">
                         <label>Logo Instagram (Opsional)</label>
                         <div class="upload-area">
-                            <img class="ig-preview-thumb" id="igThumb" alt="preview">
-                            <input type="text" id="igFileName" value="Belum dipilih" readonly>
-                            <input type="file" id="igFileInput" accept="image/*" style="display:none" onchange="handleIGUpload(event)">
+                            <img class="ig-preview-thumb" id="igThumb" alt="Preview logo Instagram">
+                            <input type="text" id="igFileName" value="Belum dipilih" readonly aria-label="Nama file logo yang dipilih">
+                            <input type="file" id="igFileInput" accept="image/*" class="sr-only" aria-label="Pilih file gambar logo" title="Pilih file gambar logo" onchange="handleIGUpload(event)">
                             <button type="button" class="btn-upload" id="igUploadBtn" onclick="document.getElementById('igFileInput').click()">
                                 <i class="fas fa-image"></i> Pilih Foto
                             </button>
@@ -64,11 +65,25 @@
                 </div>
             </div>
 
+            <div class="section-title"><i class="fas fa-wifi"></i> WiFi Tamu</div>
+            <div class="form-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="wifiName">Nama WiFi (SSID)</label>
+                        <input type="text" id="wifiName" value="" placeholder="Contoh: Y0oman_Guest" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label for="wifiPass">Password WiFi</label>
+                        <input type="text" id="wifiPass" value="" placeholder="Contoh: y0oman123" oninput="updatePreview()">
+                    </div>
+                </div>
+            </div>
+
             <div class="section-title"><i class="fas fa-motorcycle"></i> Tipe Order</div>
             <div class="form-card">
                 <div class="form-row full">
                     <div class="form-group">
-                        <label>Order Dari</label>
+                        <label for="orderType">Order Dari</label>
                         <select id="orderType" onchange="updatePreview()">
                             <option value="offline">Langsung di Tempat (Offline)</option>
                             <option value="gofood">GoFood</option>
@@ -97,11 +112,11 @@
             <div class="form-card">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Bayar (Tunai)</label>
+                        <label for="cashPaid">Bayar (Tunai)</label>
                         <input type="number" id="cashPaid" value="0" oninput="updatePreview()" min="0">
                     </div>
                     <div class="form-group">
-                        <label>Tanggal / Waktu</label>
+                        <label for="txDate">Tanggal / Waktu</label>
                         <input type="text" id="txDate" readonly>
                     </div>
                 </div>
@@ -114,7 +129,7 @@
                         <span>Total</span>
                         <span class="val" id="dispTotal">Rp 0</span>
                     </div>
-                    <div class="pay-row" style="margin-top:8px;">
+                    <div class="pay-row pay-row-space">
                         <span>Bayar</span>
                         <span class="val" id="dispCash">Rp 0</span>
                     </div>
@@ -136,7 +151,7 @@
         </div>
 
         <div class="preview-panel">
-            <div class="preview-label">Preview Struk</div>
+            <div class="preview-label">Preview Struk (80mm)</div>
             <div class="receipt" id="receiptPreview"></div>
         </div>
 
@@ -147,6 +162,6 @@
         <span id="toastMsg">Berhasil!</span>
     </div>
 
-    <script src="/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
