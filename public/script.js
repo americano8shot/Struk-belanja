@@ -17,7 +17,7 @@ function updateClock() {
     var now = new Date();
     document.getElementById('clockDisplay').textContent =
         now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) +
-        ' · ' + now.toLocaleTimeString('id-ID');
+        ' \u00B7 ' + now.toLocaleTimeString('id-ID');
 }
 
 function setTxDate() {
@@ -63,10 +63,10 @@ function renderItems() {
         var row = document.createElement('div');
         row.className = 'item-row';
         row.innerHTML =
-            '<input type="text" value="' + item.name + '" placeholder="Nama item" oninput="updateItem(' + i + ',\'name\',this.value)">' +
-            '<input type="number" value="' + item.price + '" placeholder="0" min="0" oninput="updateItem(' + i + ',\'price\',+this.value)">' +
-            '<input type="number" value="' + item.qty + '" placeholder="0" min="1" oninput="updateItem(' + i + ',\'qty\',+this.value)">' +
-            '<button class="btn-remove" onclick="removeItem(' + i + ')" title="Hapus"><i class="fas fa-times"></i></button>';
+            '<input type="text" value="' + item.name + '" placeholder="Nama item" aria-label="Nama item ' + (i + 1) + '" oninput="updateItem(' + i + ',\'name\',this.value)">' +
+            '<input type="number" value="' + item.price + '" placeholder="0" min="0" aria-label="Harga item ' + (i + 1) + '" oninput="updateItem(' + i + ',\'price\',+this.value)">' +
+            '<input type="number" value="' + item.qty + '" placeholder="0" min="1" aria-label="Jumlah item ' + (i + 1) + '" oninput="updateItem(' + i + ',\'qty\',+this.value)">' +
+            '<button class="btn-remove" onclick="removeItem(' + i + ')" title="Hapus item ' + (i + 1) + '" aria-label="Hapus item ' + (i + 1) + '"><i class="fas fa-times"></i></button>';
         c.appendChild(row);
     });
 }
@@ -128,6 +128,8 @@ function updatePreview() {
     var storeTag = document.getElementById('storeTag').value || '';
     var storeIG = document.getElementById('storeIG').value || '';
     var txDate = document.getElementById('txDate').value || '';
+    var wifiName = document.getElementById('wifiName').value || '';
+    var wifiPass = document.getElementById('wifiPass').value || '';
 
     var orderHTML = '';
     var orderLabel = getOrderLabel(orderType);
@@ -154,17 +156,20 @@ function updatePreview() {
 
     var igImgHTML = '';
     if (igLogoData) {
-        igImgHTML = '<img src="' + igLogoData + '" alt="ig">';
+        igImgHTML = '<img src="' + igLogoData + '" alt="Logo Instagram">';
     }
 
     var html = '';
+
     html += '<div class="r-header">';
     html += '<div class="r-brand">' + storeName + '</div>';
     if (storeSub) html += '<div class="r-sub">' + storeSub + '</div>';
     if (storeAddr) html += '<div class="r-addr">' + storeAddr + '</div>';
     html += '</div>';
+
     html += '<div class="r-date">' + txDate + '</div>';
     html += orderHTML;
+
     html += '<hr class="r-sep">';
     html += '<div class="r-col-head">';
     html += '<span class="r-col-name">Item</span>';
@@ -172,9 +177,11 @@ function updatePreview() {
     html += '<span class="r-col-qty">Jml</span>';
     html += '</div>';
     html += itemsHTML;
+
     html += '<hr class="r-sep">';
     html += '<div class="r-total-row"><span>Subtotal</span><span>' + fmt(subtotal) + '</span></div>';
     html += '<div class="r-total-row grand"><span>TOTAL</span><span>Rp ' + fmt(subtotal) + '</span></div>';
+
     html += '<hr class="r-sep">';
     html += '<div class="r-pay-row"><span>Tunai</span><span>' + fmt(cash) + '</span></div>';
     html += '<div class="r-pay-row r-change"><span>Kembalian</span><span>' + fmt(Math.max(0, change)) + '</span></div>';
@@ -184,6 +191,18 @@ function updatePreview() {
         if (storeTag) html += '<div class="r-tagline">"' + storeTag + '"</div>';
         if (storeIG) html += '<div class="r-ig">' + igImgHTML + storeIG + '</div>';
         html += '<div class="r-thanks">Terima kasih sudah order ditempat kami</div>';
+        html += '</div>';
+    }
+
+    if (wifiName) {
+        html += '<div class="r-wifi">';
+        html += '<div class="r-wifi-icon"><i class="fas fa-wifi"></i></div>';
+        html += '<div class="r-wifi-label">WiFi Gratis</div>';
+        html += '<div class="r-wifi-name">' + wifiName + '</div>';
+        if (wifiPass) {
+            html += '<div class="r-wifi-pass-label">Password:</div>';
+            html += '<div class="r-wifi-pass">' + wifiPass + '</div>';
+        }
         html += '</div>';
     }
 
@@ -210,6 +229,8 @@ function resetAll() {
     items = [{ name: '', price: 0, qty: 1 }];
     document.getElementById('cashPaid').value = '';
     document.getElementById('orderType').value = 'offline';
+    document.getElementById('wifiName').value = '';
+    document.getElementById('wifiPass').value = '';
     igLogoData = '';
     document.getElementById('igFileInput').value = '';
     document.getElementById('igFileName').value = 'Belum dipilih';
