@@ -197,7 +197,7 @@ function updatePreview() {
     if (wifiName) {
         html += '<div class="r-wifi">';
         html += '<div class="r-wifi-icon"><i class="fas fa-wifi"></i></div>';
-        html += '<div class="r-wifi-label">WiFi Gratis</div>';
+        html += '<div class="r-wifi-label">Nama Wifi</div>';
         html += '<div class="r-wifi-name">' + wifiName + '</div>';
         if (wifiPass) {
             html += '<div class="r-wifi-pass-label">Password:</div>';
