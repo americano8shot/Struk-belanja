@@ -9,6 +9,7 @@ function init() {
     updateClock();
     setInterval(updateClock, 1000);
     setTxDate();
+    loadHashCounter();
     renderItems();
     updatePreview();
 }
@@ -29,6 +30,24 @@ function setTxDate() {
     var min = String(now.getMinutes()).padStart(2, '0');
     var s = String(now.getSeconds()).padStart(2, '0');
     document.getElementById('txDate').value = y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
+}
+
+/* ── Hashtag Pesanan ── */
+function loadHashCounter() {
+    var saved = localStorage.getItem('yh_hash_counter');
+    if (!saved) {
+        localStorage.setItem('yh_hash_counter', '0');
+    }
+}
+
+function autoGenerateHash() {
+    var counter = parseInt(localStorage.getItem('yh_hash_counter') || '0', 10);
+    counter++;
+    localStorage.setItem('yh_hash_counter', String(counter));
+    var num = String(counter).padStart(3, '0');
+    document.getElementById('hashtagOrder').value = '#YH' + num;
+    updatePreview();
+    showToast('Pesanan #' + num + ' digenerate', 'fa-hashtag');
 }
 
 function handleIGUpload(event) {
@@ -130,6 +149,7 @@ function updatePreview() {
     var txDate = document.getElementById('txDate').value || '';
     var wifiName = document.getElementById('wifiName').value || '';
     var wifiPass = document.getElementById('wifiPass').value || '';
+    var hashtagOrder = document.getElementById('hashtagOrder').value || '';
 
     var orderHTML = '';
     var orderLabel = getOrderLabel(orderType);
@@ -168,6 +188,11 @@ function updatePreview() {
     html += '</div>';
 
     html += '<div class="r-date">' + txDate + '</div>';
+
+    if (hashtagOrder) {
+        html += '<div class="r-hashtag">' + hashtagOrder + '</div>';
+    }
+
     html += orderHTML;
 
     html += '<hr class="r-sep">';
@@ -197,7 +222,7 @@ function updatePreview() {
     if (wifiName) {
         html += '<div class="r-wifi">';
         html += '<div class="r-wifi-icon"><i class="fas fa-wifi"></i></div>';
-        html += '<div class="r-wifi-label">Nama Wifi</div>';
+        html += '<div class="r-wifi-label">WiFi Gratis</div>';
         html += '<div class="r-wifi-name">' + wifiName + '</div>';
         if (wifiPass) {
             html += '<div class="r-wifi-pass-label">Password:</div>';
@@ -231,6 +256,7 @@ function resetAll() {
     document.getElementById('orderType').value = 'offline';
     document.getElementById('wifiName').value = '';
     document.getElementById('wifiPass').value = '';
+    document.getElementById('hashtagOrder').value = '';
     igLogoData = '';
     document.getElementById('igFileInput').value = '';
     document.getElementById('igFileName').value = 'Belum dipilih';
